@@ -27,6 +27,10 @@
 #include "Shape.h"
 #include "Paint.h"
 
+#include "Layer.h"
+
+class Layer;
+
 /**
  * One object in the scene that is a shape with some paint on it.
  *
@@ -34,18 +38,23 @@
  * either some texture, or any special effect that might animate a
  * polygon or a line.
  */
-class Mapping
+class Mapping : public QObject
 {
+  Q_OBJECT
+  Q_PROPERTY(uint _id READ getId)
+
 protected:
   Paint::ptr _paint;
   Shape::ptr _shape;
+  Layer* _layer;
+
 private:
   uint       _id;
 
 public:
   typedef std::tr1::shared_ptr<Mapping> ptr;
   Mapping(Paint::ptr paint, Shape::ptr shape)
-    : _paint(paint), _shape(shape)
+    : _paint(paint), _shape(shape), _layer(0)
   {
     static uint id = 0;
     _id = id++;
@@ -61,6 +70,9 @@ public:
   Paint::ptr getPaint() const { return _paint; }
   Shape::ptr getShape() const { return _shape; }
   uint getId() const { return _id; }
+
+  Layer* getLayer() const { return _layer; }
+  void setLayer(Layer* layer) { _layer = layer; }
 
 };
 

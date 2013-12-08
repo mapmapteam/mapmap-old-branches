@@ -22,16 +22,25 @@
 
 #include "Mapping.h"
 
-class Layer
+class Mapping;
+
+class Layer : public QObject
 {
+  Q_OBJECT
+  Q_PROPERTY(uint _id READ getId)
+  Q_PROPERTY(float _opacity READ getOpacity WRITE setOpacity)
+
+public slots:
+  void setOpacityPercentage(int percentage);
+
 public:
   typedef std::tr1::shared_ptr<Layer> ptr;
 
   Layer();
   virtual ~Layer();
 
-  void setMapping(Mapping::ptr mapping) { _mapping = mapping; }
-  Mapping::ptr getMapping() const { return _mapping; }
+  void setMapping(std::tr1::shared_ptr<Mapping> mapping) { _mapping = mapping; }
+  std::tr1::shared_ptr<Mapping> getMapping() const { return _mapping; }
 
   void setLocked(bool locked)    { _isLocked = locked; }
   void setSolo(bool solo)        { _isSolo = solo; }
@@ -50,7 +59,7 @@ public:
   uint getId() const { return _id; }
 
 private:
-  Mapping::ptr _mapping;
+  std::tr1::shared_ptr<Mapping> _mapping;
   bool _isLocked;
   bool _isSolo;
   bool _isVisible;

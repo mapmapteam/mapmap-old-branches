@@ -30,3 +30,7 @@ Layer::~Layer()
 {
 }
 
+void Layer::setOpacityPercentage(int percentage)
+{
+  setOpacity( (float)percentage / 100.0f );
+}

@@ -22,7 +22,7 @@
 TextureMapper::TextureMapper(std::tr1::shared_ptr<TextureMapping> mapping)
   : Mapper(mapping)
 {
-  _propertyBrowser = new QtGroupBoxPropertyBrowser;
+  _propertyBrowser = new QtButtonPropertyBrowser;
   _variantManager = new QtVariantPropertyManager;
   _variantFactory = new QtVariantEditorFactory;
 
@@ -133,7 +133,14 @@ void TextureMapper::draw()
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-  glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+  glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+  //glEnable(GL_ALPHA);
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_DST_ALPHA),
+
+  qDebug() << "Redrawing with opacity: " <<  _mapping->getLayer()->getOpacity() << endl;
+
+  glColor4f(1.0f, 1.0f, 1.0f, _mapping->getLayer()->getOpacity());
   if (inputShape->nVertices() == 4)
     glBegin(GL_QUADS);
   else if (inputShape->nVertices() == 3)
@@ -156,8 +163,11 @@ void TextureMapper::draw()
   }
   glEnd();
 
+  glDisable(GL_BLEND);
+
   glDisable(GL_TEXTURE_2D);
 }
+
 void TextureMapper::_buildShapeProperty(QtProperty* shapeItem, Shape* shape)
 {
   for (int i=0; i<shape->nVertices(); i++)

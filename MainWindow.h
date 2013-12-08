@@ -62,6 +62,7 @@ private slots:
   void handleLayerItemSelectionChanged();
   void handleLayerItemChanged(QListWidgetItem* item);
   void handleLayerIndexesMoved();
+  void handleLayerOpacityChanged(int value);
   void addQuad();
   void addTriangle();
 

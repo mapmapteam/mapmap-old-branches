@@ -137,6 +137,7 @@ void MapperGLCanvas::mousePressEvent(QMouseEvent* event)
 
 void MapperGLCanvas::mouseReleaseEvent(QMouseEvent* event)
 {
+  Q_UNUSED(event);
   // std::cout << "Mouse Release event " << std::endl;
   _mousepressed = false;
   _shapegrabbed = false;
@@ -186,6 +187,7 @@ void MapperGLCanvas::mouseMoveEvent(QMouseEvent* event)
 
 void MapperGLCanvas::keyPressEvent(QKeyEvent* event)
 {
+  Q_UNUSED(event);
 //  std::cout << "Key pressed" << std::endl;
 //  int xMove = 0;
 //  int yMove = 0;

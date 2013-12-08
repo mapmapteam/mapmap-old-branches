@@ -79,6 +79,7 @@ uint MappingManager::addLayer(Mapping::ptr mapping)
   addMapping(mapping);
   Layer::ptr layer(new Layer);
   layer->setMapping(mapping);
+  mapping->setLayer(layer.get());
   layerVector.push_back(layer);
   layerMap[layer->getId()] = layer;
   return layer->getId();

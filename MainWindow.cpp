@@ -116,6 +116,12 @@ void MainWindow::handleLayerIndexesMoved()
   updateAll();
 }
 
+void MainWindow::handleLayerOpacityChanged(int value)
+{
+  float opacity = (float)value/100.0f;
+
+}
+
 //void MainWindow::handleSourceSelectionChanged(const QItemSelection& selection)
 //{
 //  std::cout << "selection changed" << std::endl;
@@ -642,6 +648,7 @@ void MainWindow::addLayerItem(uint layerId)
   QIcon icon;
 
   // Triangle
+  // TODO: change this: we can't determine which one it is based on number of vertices
   if (mapping->getShape()->nVertices() == 3)
   {
     label = QString("Triangle %1").arg(mappingId);
@@ -666,10 +673,30 @@ void MainWindow::addLayerItem(uint layerId)
   Mapper::ptr mapper( new TextureMapper(textureMapping) );
 
   mappers[mappingId] = mapper;
+  QGroupBox* layerEditor = new QGroupBox;
+  QVBoxLayout* layerEditorLayout = new QVBoxLayout;
+  QLabel* layerOpacityLabel = new QLabel(tr("Opacity"));
+
+  QSlider* layerOpacitySlider = new QSlider(Qt::Horizontal);
+  layerOpacitySlider->setRange(0, 100);
+
+  layerEditorLayout->addWidget(layerOpacityLabel);
+  layerEditorLayout->addWidget(layerOpacitySlider);
+
   QWidget* mapperEditor = mapper->getPropertiesEditor();
-  propertyPanel->addWidget(mapperEditor);
+  layerEditorLayout->addWidget(mapperEditor);
+
+  layerEditor->setLayout(layerEditorLayout);
+
+  propertyPanel->addWidget(layerEditor);
   propertyPanel->setCurrentWidget(mapperEditor);
   propertyPanel->setEnabled(true);
+
+  connect(layerOpacitySlider, SIGNAL(valueChanged(int)),
+          layer.get(),        SLOT(setOpacityPercentage(int)));
+
+  connect(layerOpacitySlider, SIGNAL(valueChanged(int)),
+          this,               SLOT(updateAll()));
 
   // When mapper value is changed, update canvases.
   connect(mapper.get(), SIGNAL(valueChanged()),
