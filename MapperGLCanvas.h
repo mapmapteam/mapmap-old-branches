@@ -20,7 +20,7 @@
 #ifndef MAPPERGLCANVAS_H_
 #define MAPPERGLCANVAS_H_
 
-#include <QGLWidget>
+// #include <QGLWidget>
 #include <QKeyEvent>
 #include <QPaintEvent>
 

@@ -15,7 +15,8 @@ if [[ $unamestr == "Darwin" ]]; then
     qmake5=~/Qt5.2.1/5.2.1/clang_64/bin/qmake
     $qmake5 -spec macx-llvm 
 elif [[ $unamestr == "Linux" ]]; then
-    qmake-qt4
+    /usr/lib/x86_64-linux-gnu/qt5/bin/qmake
+    #qmake-qt5
 fi
 
 make
