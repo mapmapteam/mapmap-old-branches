@@ -78,7 +78,7 @@ mac {
   QMAKE_CXXFLAGS += -D__MACOSX_CORE__
   QMAKE_CXXFLAGS += -stdlib=libstdc++
   INCLUDEPATH += /Library/Frameworks/GStreamer.framework/Versions/1.0/Headers
-  QMAKE_LDFLAGS += -F/Library/Frameworks 
+  QMAKE_LFLAGS += -F/Library/Frameworks 
   LIBS += -L/Library/Frameworks/GStreamer.framework/Versions/1.0/lib
   LIBS += -F/Library/Frameworks 
   LIBS += -framework GStreamer
