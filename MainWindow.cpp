@@ -43,36 +43,36 @@ MainWindow::MainWindow()
   _hasCurrentMapping = false;
   currentSelectedItem = NULL;
 
-  // Create everything.
-  videoTimer = new QTimer(this);
-  videoTimer->setInterval(1000/30);
-  connect(videoTimer, SIGNAL(timeout()), this, SLOT(updateCanvases()));
-  videoTimer->start();
+  // // Create everything.
+  // videoTimer = new QTimer(this);
+  // videoTimer->setInterval(1000/30);
+  // connect(videoTimer, SIGNAL(timeout()), this, SLOT(updateCanvases()));
+  // videoTimer->start();
 
-  createLayout();
-  std::cout << "DEBUG MAINWINDOW 1" << std::endl;
-  createActions();
-  std::cout << "DEBUG MAINWINDOW 2" << std::endl;
-  createMenus();
-  std::cout << "DEBUG MAINWINDOW 3" << std::endl;
-  createContextMenu();
-  std::cout << "DEBUG MAINWINDOW 4" << std::endl;
-  createToolBars();
-  createStatusBar();
-  std::cout << "DEBUG MAINWINDOW 5" << std::endl;
+  // createLayout();
+  // std::cout << "DEBUG MAINWINDOW 1" << std::endl;
+  // createActions();
+  // std::cout << "DEBUG MAINWINDOW 2" << std::endl;
+  // createMenus();
+  // std::cout << "DEBUG MAINWINDOW 3" << std::endl;
+  // createContextMenu();
+  // std::cout << "DEBUG MAINWINDOW 4" << std::endl;
+  // createToolBars();
+  // createStatusBar();
+  // std::cout << "DEBUG MAINWINDOW 5" << std::endl;
 
-  // Load settings.
-  //readSettings();
-  std::cout << "DEBUG MAINWINDOW 6" << std::endl;
+  // // Load settings.
+  // //readSettings();
+  // std::cout << "DEBUG MAINWINDOW 6" << std::endl;
 
-  // Start osc.
-  startOscReceiver();
-  std::cout << "DEBUG MAINWINDOW 7" << std::endl;
+  // // Start osc.
+  // startOscReceiver();
+  // std::cout << "DEBUG MAINWINDOW 7" << std::endl;
 
-  // Defaults.
-  //setWindowIcon(QIcon(":/images/icon.png"));
-  setCurrentFile("");
-  std::cout << "DEBUG MAINWINDOW 8" << std::endl;
+  // // Defaults.
+  // //setWindowIcon(QIcon(":/images/icon.png"));
+  // setCurrentFile("");
+  // std::cout << "DEBUG MAINWINDOW 8" << std::endl;
 }
 
 MainWindow::~MainWindow()

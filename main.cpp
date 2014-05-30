@@ -63,15 +63,15 @@ int main(int argc, char *argv[])
                      Qt::AlignLeft | Qt::AlignTop, MM::WHITE);
 #endif // ENABLE_SPLASH
 
-  bool FORCE_FRENCH_LANG = false;
-  // set_language_to_french(app);
-  if (FORCE_FRENCH_LANG)
-  {
-    // Set translator.
-    QTranslator translator;
-    translator.load("mapmap_fr");
-    app.installTranslator(&translator);
-  }
+  // bool FORCE_FRENCH_LANG = false;
+  // // set_language_to_french(app);
+  // if (FORCE_FRENCH_LANG)
+  // {
+  //   // Set translator.
+  //   QTranslator translator;
+  //   translator.load("mapmap_fr");
+  //   app.installTranslator(&translator);
+  // }
 
 #if ENABLE_SPLASH
   // Let splash for at least one second.
