@@ -13,6 +13,6 @@ mac {
   DEFINES += MACOSX
   QMAKE_CXXFLAGS += -D__MACOSX_CORE__
   QMAKE_CXXFLAGS += -stdlib=libstdc++
-  CONFIG-=app_bundle
+  # CONFIG-=app_bundle
 }
 
