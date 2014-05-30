@@ -81,9 +81,10 @@ mac {
   LIBS += -F /Library/Frameworks/ -framework GStreamer
   LIBS += -framework OpenGL -framework GLUT
   # With Xcode Tools > 1.5, to reduce the size of your binary even more:
-  LIBS += -dead_strip
+  # LIBS += -dead_strip
   QMAKE_CXXFLAGS += -D__MACOSX_CORE__
   # This tells qmake not to put the executable inside a bundle.
+  # just for reference. Do not uncomment.
   # CONFIG-=app_bundle
 }
 
