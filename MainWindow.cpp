@@ -50,21 +50,29 @@ MainWindow::MainWindow()
   videoTimer->start();
 
   createLayout();
+  std::cout << "DEBUG MAINWINDOW 1" << std::endl;
   createActions();
+  std::cout << "DEBUG MAINWINDOW 2" << std::endl;
   createMenus();
+  std::cout << "DEBUG MAINWINDOW 3" << std::endl;
   createContextMenu();
+  std::cout << "DEBUG MAINWINDOW 4" << std::endl;
   createToolBars();
   createStatusBar();
+  std::cout << "DEBUG MAINWINDOW 5" << std::endl;
 
   // Load settings.
-  readSettings();
+  //readSettings();
+  std::cout << "DEBUG MAINWINDOW 6" << std::endl;
 
   // Start osc.
   startOscReceiver();
+  std::cout << "DEBUG MAINWINDOW 7" << std::endl;
 
   // Defaults.
   //setWindowIcon(QIcon(":/images/icon.png"));
   setCurrentFile("");
+  std::cout << "DEBUG MAINWINDOW 8" << std::endl;
 }
 
 MainWindow::~MainWindow()
@@ -804,6 +812,7 @@ void MainWindow::windowModified()
 
 void MainWindow::createLayout()
 {
+  std::cout << "DEBUG PRINT 3" << std::endl;
   // Create paint list.
   paintList = new QListWidget;
   paintList->setSelectionMode(QAbstractItemView::SingleSelection);
@@ -827,6 +836,7 @@ void MainWindow::createLayout()
   propertyPanel->setMinimumWidth(PROPERTY_PANEL_MINIMUM_WIDTH);
 
   // Create canvases.
+  std::cout << "DEBUG PRINT 2" << std::endl;
 
   sourceCanvas = new SourceGLCanvas(this);
   sourceCanvas->setFocusPolicy(Qt::ClickFocus);
@@ -838,24 +848,28 @@ void MainWindow::createLayout()
   destinationCanvas->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
   destinationCanvas->setMinimumSize(CANVAS_MINIMUM_WIDTH, CANVAS_MINIMUM_HEIGHT);
 
-  outputWindow = new OutputGLWindow(this, this, sourceCanvas);
-  outputWindow->setVisible(true);
+  // outputWindow = new OutputGLWindow(this, this, sourceCanvas);
+  // std::cout << "DEBUG PRINT 1" << std::endl;
+  // // XXX outputWindow->setVisible(true);
 
-  // Source changed -> change destination
-  connect(sourceCanvas,      SIGNAL(shapeChanged(Shape*)),
-          destinationCanvas, SLOT(updateCanvas()));
 
-  // Source changed -> change output window
-  connect(sourceCanvas,              SIGNAL(shapeChanged(Shape*)),
-          outputWindow->getCanvas(), SLOT(updateCanvas()));
+  // std::cout << "DEBUG MAINWINconstr 1" << std::endl;
 
-  // Destination changed -> change output window
-  connect(destinationCanvas,         SIGNAL(shapeChanged(Shape*)),
-          outputWindow->getCanvas(), SLOT(updateCanvas()));
+  // // Source changed -> change destination
+  // connect(sourceCanvas,      SIGNAL(shapeChanged(Shape*)),
+  //         destinationCanvas, SLOT(updateCanvas()));
 
-  // Output changed -> change destinatioin
-  connect(outputWindow->getCanvas(), SIGNAL(shapeChanged(Shape*)),
-          destinationCanvas,         SLOT(updateCanvas()));
+  // // Source changed -> change output window
+  // connect(sourceCanvas,              SIGNAL(shapeChanged(Shape*)),
+  //         outputWindow->getCanvas(), SLOT(updateCanvas()));
+
+  // // Destination changed -> change output window
+  // connect(destinationCanvas,         SIGNAL(shapeChanged(Shape*)),
+  //         outputWindow->getCanvas(), SLOT(updateCanvas()));
+
+  // // Output changed -> change destinatioin
+  // connect(outputWindow->getCanvas(), SIGNAL(shapeChanged(Shape*)),
+  //         destinationCanvas,         SLOT(updateCanvas()));
 
   // Create layout.
 
@@ -892,6 +906,7 @@ void MainWindow::createLayout()
 
   // Reset focus on main window.
   setFocus();
+  std::cout << "DEBUG PRINT 4" << std::endl;
 }
 
 void MainWindow::createActions()
@@ -1005,10 +1020,10 @@ void MainWindow::createActions()
   displayOutputWindow->setStatusTip(tr("Display output window"));
   displayOutputWindow->setCheckable(true);
   displayOutputWindow->setChecked(true);
-  // Manage show/hide of GL output window.
-  connect(displayOutputWindow, SIGNAL(toggled(bool)), outputWindow, SLOT(setVisible(bool)));
-  // When closing the GL output window, uncheck the action in menu.
-  connect(outputWindow, SIGNAL(closed()), displayOutputWindow, SLOT(toggle()));
+  // // Manage show/hide of GL output window.
+  // connect(displayOutputWindow, SIGNAL(toggled(bool)), outputWindow, SLOT(setVisible(bool)));
+  // // When closing the GL output window, uncheck the action in menu.
+  // connect(outputWindow, SIGNAL(closed()), displayOutputWindow, SLOT(toggle()));
 
   // Toggle display of output window.
   outputWindowFullScreen = new QAction(tr("&Full screen"), this);
@@ -1016,12 +1031,12 @@ void MainWindow::createActions()
   outputWindowFullScreen->setStatusTip(tr("Full screen"));
   outputWindowFullScreen->setCheckable(true);
   outputWindowFullScreen->setChecked(false);
-  // Manage fullscreen mode for output window.
-  connect(outputWindowFullScreen, SIGNAL(toggled(bool)), outputWindow, SLOT(setFullScreen(bool)));
-  // When fullscreen is toggled by the output window (eg. when pressing ESC), change the action checkbox.
-  connect(outputWindow, SIGNAL(fullScreenToggled(bool)), outputWindowFullScreen, SLOT(setChecked(bool)));
-  // Output window should be displayed for full screen option to be available.
-  connect(displayOutputWindow, SIGNAL(toggled(bool)), outputWindowFullScreen, SLOT(setEnabled(bool)));
+  // // Manage fullscreen mode for output window.
+  // connect(outputWindowFullScreen, SIGNAL(toggled(bool)), outputWindow, SLOT(setFullScreen(bool)));
+  // // When fullscreen is toggled by the output window (eg. when pressing ESC), change the action checkbox.
+  // connect(outputWindow, SIGNAL(fullScreenToggled(bool)), outputWindowFullScreen, SLOT(setChecked(bool)));
+  // // Output window should be displayed for full screen option to be available.
+  // connect(displayOutputWindow, SIGNAL(toggled(bool)), outputWindowFullScreen, SLOT(setEnabled(bool)));
 
 
   // Toggle display of canvas controls.
@@ -1033,13 +1048,25 @@ void MainWindow::createActions()
   // Manage show/hide of canvas controls.
   connect(displayCanvasControls, SIGNAL(toggled(bool)), sourceCanvas, SLOT(enableDisplayControls(bool)));
   connect(displayCanvasControls, SIGNAL(toggled(bool)), destinationCanvas, SLOT(enableDisplayControls(bool)));
-  connect(displayCanvasControls, SIGNAL(toggled(bool)), outputWindow->getCanvas(), SLOT(enableDisplayControls(bool)));
+  // connect(displayCanvasControls, SIGNAL(toggled(bool)), outputWindow->getCanvas(), SLOT(enableDisplayControls(bool)));
 }
 
 void MainWindow::createMenus()
 {
+  QMenuBar *menuBar = NULL;
+
+#ifdef __MACOSX_CORE__
+  menuBar = new QMenuBar(0);
+  //this->setMenuBar(menuBar);
+#else
+  menuBar = this->menuBar();
+#endif
+
+  std::cout << "DEBUG MENUS 0" << std::endl;
+  std::cout << menuBar << std::endl;
   // File.
-  fileMenu = menuBar()->addMenu(tr("&File"));
+  fileMenu = menuBar->addMenu(tr("&File"));
+  std::cout << "DEBUG MENUS 10" << std::endl;
   fileMenu->addAction(newAction);
   fileMenu->addAction(openAction);
   fileMenu->addAction(saveAction);
@@ -1050,15 +1077,18 @@ void MainWindow::createMenus()
   fileMenu->addSeparator();
   fileMenu->addAction(exitAction);
 
+  std::cout << "DEBUG MENUS 1" << std::endl;
+
   // Edit.
-  editMenu = menuBar()->addMenu(tr("&Edit"));
+  editMenu = menuBar->addMenu(tr("&Edit"));
   //  editMenu->addAction(cutAction);
   //  editMenu->addAction(copyAction);
   //  editMenu->addAction(pasteAction);
   editMenu->addAction(deleteAction);
 
+  std::cout << "DEBUG MENUS 2" << std::endl;
   // View.
-  viewMenu = menuBar()->addMenu(tr("&View"));
+  viewMenu = menuBar->addMenu(tr("&View"));
   viewMenu->addAction(displayOutputWindow);
   viewMenu->addAction(outputWindowFullScreen);
   viewMenu->addAction(displayCanvasControls);
@@ -1072,18 +1102,20 @@ void MainWindow::createMenus()
 //  editMenu->addAction(findAction);
 //  editMenu->addAction(goToCellAction);
 
-//  toolsMenu = menuBar()->addMenu(tr("&Tools"));
+//  toolsMenu = menuBar->addMenu(tr("&Tools"));
 //  toolsMenu->addAction(recalculateAction);
 //  toolsMenu->addAction(sortAction);
 //
-//  optionsMenu = menuBar()->addMenu(tr("&Options"));
+//  optionsMenu = menuBar->addMenu(tr("&Options"));
 //  optionsMenu->addAction(showGridAction);
 //  optionsMenu->addAction(autoRecalcAction);
+  std::cout << "DEBUG MENUS 3" << std::endl;
 
   // Help.
-  helpMenu = menuBar()->addMenu(tr("&Help"));
+  helpMenu = menuBar->addMenu(tr("&Help"));
   helpMenu->addAction(aboutAction);
 //  helpMenu->addAction(aboutQtAction);
+  std::cout << "DEBUG MENUS 4" << std::endl;
 }
 
 void MainWindow::createContextMenu()
@@ -1144,7 +1176,7 @@ void MainWindow::readSettings()
   mainSplitter->restoreState(settings.value("mainSplitter").toByteArray());
   resourceSplitter->restoreState(settings.value("resourceSplitter").toByteArray());
   canvasSplitter->restoreState(settings.value("canvasSplitter").toByteArray());
-  outputWindow->restoreGeometry(settings.value("outputWindow").toByteArray());
+  //outputWindow->restoreGeometry(settings.value("outputWindow").toByteArray());
   config_osc_receive_port = settings.value("osc_receive_port", 12345).toInt();
 }
 
@@ -1156,7 +1188,7 @@ void MainWindow::writeSettings()
   settings.setValue("mainSplitter", mainSplitter->saveState());
   settings.setValue("resourceSplitter", resourceSplitter->saveState());
   settings.setValue("canvasSplitter", canvasSplitter->saveState());
-  settings.setValue("outputWindow", outputWindow->saveGeometry());
+  //settings.setValue("outputWindow", outputWindow->saveGeometry());
   settings.setValue("osc_receive_port", config_osc_receive_port);
 }
 
@@ -1496,7 +1528,7 @@ void MainWindow::updateCanvases()
 {
   sourceCanvas->update();
   destinationCanvas->update();
-  outputWindow->getCanvas()->update();
+  //outputWindow->getCanvas()->update();
 }
 
 QString MainWindow::strippedName(const QString &fullFileName)
