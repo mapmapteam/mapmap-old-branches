@@ -14,7 +14,11 @@ if [[ $unamestr == "Darwin" ]]; then
     PATH=$PATH:~/Qt5.2.1/5.2.1/clang_64/bin
     qmake5=~/Qt5.2.1/5.2.1/clang_64/bin/qmake
     # $qmake5 -spec macx-llvm
-    $qmake5 -config release -spec macx-llvm
+
+    # XXX
+    #$qmake5 -config release -spec macx-llvm
+    $qmake5 -config debug -spec macx-llvm
+
     macdeployqt MapMap.app
     make
     lrelease mapmap_fr.ts
