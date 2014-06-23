@@ -40,6 +40,16 @@ public:
 
 int main(int argc, char *argv[])
 {
+
+#ifdef __MACOSX_CORE__
+  QDir dir(argv[0]);  // e.g. appdir/Contents/MacOS/appname
+  dir.cdUp();
+  dir.cdUp();
+  dir.cd("PlugIns");
+  QCoreApplication::setLibraryPaths(QStringList(dir.absolutePath()));
+  printf("after change, libraryPaths=(%s)\n", QCoreApplication::libraryPaths().join(",").toUtf8().data());
+#endif // __MACOSX_CORE__
+
   set_env_vars_if_needed();
   std::cout << "PRINT MAIN 0" << std::endl;
 
